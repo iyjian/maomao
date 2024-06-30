@@ -1,0 +1,70 @@
+<canvas id="canvas" width="1000" height="1000"></canvas>
+
+<script>
+canvas = document.getElementById('canvas')
+ctx = canvas.getContext('2d')
+
+
+// method routine function
+strokeGuy = (x, y, r) => {
+    //  x = 100
+    //  y = 100
+
+    // 头
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, 2 * Math.PI)
+    ctx.stroke()
+    // 身体
+    ctx.beginPath();
+    ctx.moveTo(x, y + r);
+    ctx.lineTo(x, y + r + 40);
+    ctx.stroke();
+    
+    // left arm
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x - 40, y + 30);
+    ctx.stroke();
+   
+    // right arm
+    ctx.beginPath();
+    ctx.moveTo(x, y + r + 40);
+    ctx.lineTo(x + 40, y + r);
+    ctx.stroke();
+  
+    // 下身
+    ctx.beginPath();
+    ctx.moveTo(x, y + 40 + r);
+    ctx.lineTo(x, y + r + 80);
+    ctx.stroke();
+    
+    // left leg
+    ctx.beginPath();
+    ctx.moveTo(x,  y + 100 + 10);
+    ctx.lineTo(x - 40, y + 100 + 50);
+    ctx.stroke();
+    // right leg
+    ctx.beginPath();
+    ctx.moveTo(x, y + 100 + 10);
+    ctx.lineTo(x + 40, y + 100 + 50);
+    ctx.stroke();
+   
+}
+
+
+
+
+
+strokeGuy(60, 60)
+
+
+
+</script>
+
+
+
+
+
+
+
+

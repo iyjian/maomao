@@ -1,0 +1,27 @@
+<canvas id="canvas" width="5000" height="5000"></canvas>
+
+<script>
+canvas = document.getElementById('canvas')
+ctx = canvas.getContext('2d')
+
+strokeRoad = (x, y, length, width) => {
+
+    k = (width - 70) / 2
+
+    ctx.fillRect(x, y, length, 5)
+
+    ctx.fillRect(x, y + k + 5, length, 60)
+
+    ctx.fillRect(x, y + 2 * k + 65, length, 5)
+
+
+
+
+}
+
+
+strokeRoad(0, 0, 1000, 700)
+
+</script>
+
+

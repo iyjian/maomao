@@ -1,0 +1,16 @@
+<input type="input" id="myinput"/>
+
+<button id="mybutton">click me</button>
+
+<script>
+
+    document.querySelector('#mybutton').addEventListener('click', function () {
+      let inputValue = document.querySelector('#myinput').value
+      if (inputValue == 'maomao') {
+          alert('your input is maomao')
+      } else {
+          alert('your input is not maomao')
+      }
+    })
+
+</script>
