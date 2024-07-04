@@ -1,4 +1,4 @@
-
+#include <iostream>
 bool checkPerfectNumber(int num){
     if (num == 1){
         return false;
@@ -22,4 +22,8 @@ bool checkPerfectNumber(int num){
         factor_maybe += 1;
     }
     return num == factor_sum;
+}
+
+int main(){
+    cout << checkPerfectNumber(28) << endl;
 }
