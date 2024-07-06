@@ -21,3 +21,6 @@ class CheckPerfectNumber_Solution:
 
     def checkPerfectNumber_V2(self, num : int) -> bool:
         return num in [6, 28, 496, 8128, 33550336]
+    
+checkPerfectNumber_Solution = CheckPerfectNumber_Solution
+checkPerfectNumber_Solution.checkPerfectNumber_V2(28)

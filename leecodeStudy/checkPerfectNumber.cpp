@@ -1,6 +1,9 @@
 #include <iostream>
-bool checkPerfectNumber(int num){
-    if (num == 1){
+
+class Solution {
+public:
+    bool checkPerfectNumber(int num) {
+            if (num == 1){
         return false;
     }
     int upper_bound = num / 2;
@@ -22,8 +25,11 @@ bool checkPerfectNumber(int num){
         factor_maybe += 1;
     }
     return num == factor_sum;
-}
+    }
+};
 
 int main(){
-    cout << checkPerfectNumber(28) << endl;
+    Solution solution;
+
+    std::cout << solution.checkPerfectNumber(28) << std::endl;
 }
