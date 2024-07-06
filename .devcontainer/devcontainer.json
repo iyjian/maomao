@@ -1,0 +1,30 @@
+//devcontainer.json
+{
+    "name": "mao-dev",
+  
+    // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+    "image": "iyjian/mao-dev",
+  
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    // "features": {},
+  
+    "customizations": {
+      "vscode": {
+        "settings": {},
+        "extensions": ["ms-vscode.cpptools-extension-pack", "ms-toolsai.jupyter", "ritwickdey.LiveServer", "ms-python.python", "mcright.auto-save"]
+      }
+    }
+  
+    // "forwardPorts": [3000],
+  
+    // "portsAttributes": {
+    //   "3000": {
+    //     "label": "Hello Remote World",
+    //     "onAutoForward": "notify"
+    //   }
+    // },
+  
+    // "postCreateCommand": "yarn install"
+  
+    // "remoteUser": "root"
+  }
