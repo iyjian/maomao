@@ -7,15 +7,17 @@ def rand2DPoint():
 def isInCircle(x1, y1):
     return (.5 - x1) ** 2 + (.5 - y1) ** 2 <= .5 ** 2
 
-print(rand2DPoint())
+def pi_computing(Precision : int):
 
-totalRolls = 0
-inCircleTimes = 0
+    totalRolls = 0
+    inCircleTimes = 0
 
-while totalRolls < 1000000:
-    point = rand2DPoint()
-    if isInCircle(*point):
-        inCircleTimes += 1
-    totalRolls += 1
+    while totalRolls < Precision:
+        point = rand2DPoint()
+        if isInCircle(*point):
+            inCircleTimes += 1
+        totalRolls += 1
 
-print((4 * inCircleTimes) / totalRolls)
+    return ((4 * inCircleTimes) / totalRolls)
+
+print(pi_computing(100))
