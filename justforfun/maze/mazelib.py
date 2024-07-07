@@ -5,6 +5,9 @@ maze = """001111
 001100
 111111"""
 
+
+
+
 maze_arr = [list(line)  for line in maze.split('\n')]
 
 maze_height = len(maze_arr)
