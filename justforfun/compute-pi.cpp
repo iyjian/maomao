@@ -11,7 +11,7 @@ std::pair<double, double> rand2DPoint() {
     return {static_cast<double>(rand()) / RAND_MAX, static_cast<double>(rand()) / RAND_MAX};
 }
 
-double pi_computing_stable_version(int Precision) {
+double pi_computing_stable_version(unsigned long long Precision) {
     int grids = Precision;
     int totalRolls = 0;
     int inCircleTimes = 0;
@@ -47,4 +47,5 @@ double pi_computing_random_version(int Precision) {
 
 int main(){
     // do the things you want
+    std::cout << pi_computing_stable_version(100000000000) << std::endl;
 }
