@@ -1,3 +1,5 @@
+from typing import List
+
 maze = """001111
 100101
 100001
@@ -6,9 +8,10 @@ maze = """001111
 111111"""
 
 
+def change_arr(maze) -> List[List[str]]:
+    return [list(line)  for line in maze.split('\n')]
 
-
-maze_arr = [list(line)  for line in maze.split('\n')]
+maze_arr = change_arr(maze)
 
 maze_height = len(maze_arr)
 maze_width = len(maze_arr[0])
@@ -22,19 +25,19 @@ def go_direction(point, direction):
     if direction == 3:
         y -= 1
         if y < 0 or maze_arr[x][y] == '1':
-            return [-1, -1]
+            return False
     elif direction == 4:
         y += 1
         if y > maze_height - 1 or maze_arr[x][y] == '1':
-            return [-1, -1]
+            return False
     elif direction == 1:
         x -= 1
         if x < 0 or maze_arr[x][y] == '1':
-            return [-1, -1]
+            return False
     elif direction == 2:
         x += 1
         if x > maze_width - 1 or maze_arr[x][y] == '1':
-            return [-1, -1]
+            return False
     return [x, y]
 
 def mark_as_tried(point, direction):
