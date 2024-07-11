@@ -17,7 +17,7 @@ while current_point != end_point:
     tried_directions = 0
     for direction in range(1, 5):
         next_point = mazelib.go_direction(current_point, direction)
-        if next_point != False and not mazelib.is_tried(current_point, direction) and next_point not in path:
+        if next_point != [-1, -1] and not mazelib.is_tried(current_point, direction) and next_point not in path:
             # print('next_point', next_point, direction)
             mazelib.mark_as_tried(current_point, direction)
             current_point = next_point

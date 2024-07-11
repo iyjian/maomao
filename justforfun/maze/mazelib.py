@@ -25,19 +25,19 @@ def go_direction(point, direction):
     if direction == 3:
         y -= 1
         if y < 0 or maze_arr[x][y] == '1':
-            return False
+            return [-1, -1]
     elif direction == 4:
         y += 1
         if y > maze_height - 1 or maze_arr[x][y] == '1':
-            return False
+            return [-1, -1]
     elif direction == 1:
         x -= 1
         if x < 0 or maze_arr[x][y] == '1':
-            return False
+            return [-1, -1]
     elif direction == 2:
         x += 1
         if x > maze_width - 1 or maze_arr[x][y] == '1':
-            return False
+            return [-1, -1]
     return [x, y]
 
 def mark_as_tried(point, direction):
