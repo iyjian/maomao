@@ -6,15 +6,8 @@ from typing import List
 def combination(n : int, m : int) -> int:
     return int(math.factorial(n) / (math.factorial(m) * math.factorial(n - m)))
 
-def generate_line(numRows : int) -> List[int]:
-    line = []
-    for i in range(0, numRows):
-        line.append(combination(numRows, i))
-    if line != [1]:
-        line.append(1)
-    return line
+def pascal_triangle_line(numRows : int) -> List[int]:
+    return [combination(numRows, i) for i in range(numRows + 1)]
 
-
-# def generate(numRows: int) -> List[List[int]]:
-for i in range(1, 6):
-    print(generate_line(i))
+def pascal_triangle(numRows: int) -> List[List[int]]:
+    return[pascal_triangle_line(i) for i in range(numRows)]

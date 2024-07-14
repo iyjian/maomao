@@ -19,17 +19,5 @@ def sqrt2_computing_stable_version(Precision : int):
         totalRolls += 1
         counter += 1
     return totalRolls / inLineTimes
-            
-        
 
-def sqrt2_computing_random_version(Precision : int):
-    totalRolls = 0
-    inCircleTimes = 0
-
-    while totalRolls < Precision:
-        point = random.random()
-        if isInLine(point):
-            inCircleTimes += 1
-        totalRolls += 1
-
-    return ((4 * inCircleTimes) / totalRolls)
+print(sqrt2_computing_stable_version(1000))
