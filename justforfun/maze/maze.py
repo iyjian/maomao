@@ -10,7 +10,7 @@ end_point = [4, 5]
 path = []
 
 current_point = start_point
-loops = 0
+
 
 while current_point != end_point:
 
@@ -30,9 +30,7 @@ while current_point != end_point:
         path.pop()
         current_point = path[len(path) -1]
 
-    # if loops > 20:
-    #     break
 
-    loops += 1
+
     
 print(path)

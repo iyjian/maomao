@@ -1,6 +1,6 @@
 from typing import List
 
-maze = """001111
+maze = """111111
 100101
 100001
 101101
