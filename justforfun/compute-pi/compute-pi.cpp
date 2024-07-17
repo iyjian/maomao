@@ -3,8 +3,10 @@
 #include <cstdlib>
 #include <ctime>
 
+
 bool isInCircle(double x1, double y1) {
     return (0.5 - x1) * (0.5 - x1) + (0.5 - y1) * (0.5 - y1) <= 0.5 * 0.5;
+    int i = 0;
 }
 
 std::pair<double, double> rand2DPoint() {

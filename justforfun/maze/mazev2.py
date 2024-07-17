@@ -1,16 +1,18 @@
-import mazelib
+from maze import mazelib
 
-def is_end_point(maze_arr, current_point):
-    maze_height = len(maze_arr)
-    maze_width = len(maze_arr[0])
-    return ((maze_height or maze_width or 0) in current_point) or (current_point != [0, 0])
-        
+def is_end_point(current_point, start_point):
+    # return ((mazelib.maze_height or mazelib.maze_width or 0) in current_point) and (current_point != start_point)
+    if current_point == start_point:
+        return False
+    return (mazelib.maze_height or mazelib.maze_width) in current_point or 0 in current_point
+            
 def escape_the_maze(start_point):
     path = []
     current_point = start_point
     loops = 0
+    int
 
-    while is_end_point(mazelib.maze_arr, current_point, start_point) == True and loops != 0:
+    while is_end_point(current_point, start_point) == False and loops != 0:
         tried_directions = 0
         for direction in range(1, 5):
             next_point = mazelib.go_direction(current_point, direction)
