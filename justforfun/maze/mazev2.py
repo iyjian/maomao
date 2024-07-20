@@ -31,9 +31,3 @@ while mazelib.is_end_point(current_point, start_point) == False:
 
     
 print(path)
-
-
-
-
-
-
