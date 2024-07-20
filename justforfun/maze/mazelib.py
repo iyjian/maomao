@@ -15,6 +15,7 @@ maze_arr = change_arr(maze)
 
 maze_height = len(maze_arr)
 maze_width = len(maze_arr[0])
+start_point = [4, 0]
 
 point_statistic = {}
 
@@ -28,7 +29,7 @@ def go_direction(point, direction):
             return [-1, -1]
     elif direction == 4:
         y += 1
-        if y > maze_height - 1 or maze_arr[x][y] == '1':
+        if y > (maze_height - 1) or maze_arr[x][y] == '1':
             return [-1, -1]
     elif direction == 1:
         x -= 1
@@ -53,3 +54,8 @@ def is_tried(point, direction):
         return False
     else:
         return direction in point_statistic[key]
+
+def is_end_point(current_point, start_point):
+    if current_point == start_point:
+        return False
+    return (0 in current_point) or ((maze_height - 1) == current_point[0]) or ((maze_width - 1) == current_point[1])
