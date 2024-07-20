@@ -58,4 +58,4 @@ def is_tried(point, direction):
 def is_end_point(current_point, start_point):
     if current_point == start_point:
         return False
-    return (0 in current_point) or ((maze_height - 1) == current_point[0]) or ((maze_width - 1) == current_point[1])
+    return ((0 in current_point) or ((maze_height - 1) == current_point[0]) or ((maze_width - 1) == current_point[1]))

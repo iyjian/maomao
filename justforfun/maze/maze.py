@@ -4,7 +4,7 @@ import mazelib
 # print(maze)
 # print(maze_arry[0][0])
 
-start_point = [0, 0]
+start_point =[4, 0]
 end_point = [4, 5]
 
 path = []
@@ -18,12 +18,12 @@ while current_point != end_point:
     for direction in range(1, 5):
         next_point = mazelib.go_direction(current_point, direction)
         if next_point != [-1, -1] and not mazelib.is_tried(current_point, direction) and next_point not in path:
-            # print('next_point', next_point, direction)
             mazelib.mark_as_tried(current_point, direction)
             current_point = next_point
             path.append(next_point)
-            tried_directions += 1
             break
+        tried_directions += 1
+
             
     
     if tried_directions == 4 and path != []:
