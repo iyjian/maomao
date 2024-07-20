@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include <random>
+#include <cstdlib>
+#include <ctime>
 
 unsigned long long factorial(unsigned int n){
     if(n == 0){
@@ -22,6 +25,21 @@ bool checkPrimeNumber(unsigned int num) {
         }
     }
     return true;
+}
+
+
+bool isPrime (int num){
+    for (int i = 2; i <= sqrt(num); i ++){
+        if (num % i == 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+unsigned int random_number(int min, int max){
+    srand(time(NULL));
+    return rand() % (max - min + 1) + min;
 }
 
 int main(){

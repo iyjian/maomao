@@ -10,7 +10,6 @@ def escape_the_maze(start_point):
     path = []
     current_point = start_point
     loops = 0
-    int
 
     while is_end_point(current_point, start_point) == False and loops != 0:
         tried_directions = 0

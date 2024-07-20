@@ -22,10 +22,11 @@ while current_point != end_point:
             mazelib.mark_as_tried(current_point, direction)
             current_point = next_point
             path.append(next_point)
+            tried_directions += 1
             break
-        tried_directions += 1
+            
     
-    if tried_directions == 4:
+    if tried_directions == 4 and path != []:
         # if we tried all directions, but no valid direction
         path.pop()
         current_point = path[len(path) -1]
