@@ -1,0 +1,42 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <canvas id="canvas" width="600" height="600" c="d"></canvas>
+    </body>
+</html>
+
+
+<script>
+    canvas = document.getElementById('canvas')
+    ctx = canvas.getContext('2d')
+
+    let player = 0
+
+    const drawChess = function (x, y, player) {
+        ctx.beginPath();
+        ctx.arc(x, y, 15, 0, 2 * Math.PI)
+        ctx.fillStyle = player == 0 ? 'black' : 'lightgray'
+        ctx.fill();
+    }
+
+    const f = function (event) {
+        // console.log(event)
+        // console.log(event.clientX-8, event.clientY-8)
+        x = event.clientX - 8
+        y = event.clientY - 8
+
+        drawChess(x, y, player)
+
+        player = (player + 1) % 2
+    }
+
+    canvas.addEventListener('click', f)
+</script>
+
+<style>
+#canvas {
+    border: 1px solid red;
+}
+</style>
