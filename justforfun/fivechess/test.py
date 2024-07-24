@@ -1,0 +1,13 @@
+import fivechesslib
+from fivechesslib import BLACK_CHESS, NOBODY_WIN, WHITE_CHESS, NOTHING, BLACK_WIN, WHITE_WIN
+
+
+case1 = [BLACK_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS, NOTHING, WHITE_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS]
+case2 = [WHITE_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS, NOTHING, WHITE_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS]
+case3 = [WHITE_CHESS, WHITE_CHESS, WHITE_CHESS, WHITE_CHESS, WHITE_CHESS, BLACK_CHESS, WHITE_CHESS, BLACK_CHESS, BLACK_CHESS, BLACK_CHESS]
+# print(fivechesslib.check_win_line(case1))
+assert fivechesslib.check_win_line(case1) == BLACK_WIN
+assert fivechesslib.check_win_line(case2) == NOBODY_WIN
+assert fivechesslib.check_win_line(case3) == WHITE_WIN
+
+print('pass!')
