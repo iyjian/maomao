@@ -7,6 +7,7 @@ BLACK_CHESS = 1
 WHITE_CHESS = 2
 NOTHING = 0
 
+
 def __check_win_line__(line):
   black_chess_continue_num = 0
   white_chess_continue_num = 0
@@ -71,7 +72,7 @@ def __get_left_slash_coordinate_arr__(chess_board, slash_number):
     raise
   return slash_array
 
-def __get_slashes__(chess_board):
+def __get_left_slashes__(chess_board):
   length_of_chess_board = len(chess_board)
   slash_chess_board = []
   for slash_number in range(length_of_chess_board):
@@ -80,7 +81,7 @@ def __get_slashes__(chess_board):
 
 
 def __check_win_left_slash__(chess_board):
-  return __check_win_lying_flat__(__get_slashes__(chess_board))
+  return __check_win_lying_flat__(__get_left_slashes__(chess_board))
 
 def __get_right_slash_arr__(chess_board, slash_num):
   length_of_chess_board = len(chess_board)
@@ -88,7 +89,29 @@ def __get_right_slash_arr__(chess_board, slash_num):
   if slash_num <= length_of_chess_board - 1:
     for i in range(slash_num + 1):
       slash_line.append(chess_board[i][i + length_of_chess_board - 1 - slash_num])
-  elif slash_num > length_of_chess_board:
-    for i 
+    return slash_line
+  elif slash_num > length_of_chess_board - 1:
+    gap = slash_num + 1 - length_of_chess_board
+    i = gap
+    while i < length_of_chess_board:
+      slash_line.append(chess_board[i][i + length_of_chess_board - 1 - slash_num])
+      i += 1
+    return slash_line
+  
+def __get_right_slashes__(chess_board):
+  length_of_chess_board = len(chess_board)
+  slash_chess_board = []
+  for slash_number in range(length_of_chess_board):
+    slash_chess_board.append(__get_right_slash_arr__(chess_board, slash_number))
+  return slash_chess_board
+
+def __check_win_right_slash__(chess_board):
+  return __check_win_lying_flat__(__get_right_slashes__(chess_board))
+
+def check_win(chess_board):
+  __check_win_lying_flat__(chess_board)
+  __check_win_vertically__(chess_board)
+  __check_win_left_slash__(chess_board)
+  __check_win_right_slash__(chess_board)
 
 
