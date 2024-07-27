@@ -1,5 +1,4 @@
-from operator import length_hint
-
+import numpy
 
 BLACK_WIN = 1
 WHITE_WIN = 2
@@ -58,7 +57,7 @@ def __check_win_vertically__(chess_board):
       vertical_chess_board[k].append(j[k])
   return __check_win_lying_flat__(vertical_chess_board)
 
-def __get_slash_coordinate_arr__(chess_board, slash_number):
+def __get_left_slash_coordinate_arr__(chess_board, slash_number):
   length_of_chess_board = len(chess_board)
   slash_array = []
   if slash_number <= length_of_chess_board - 1:
@@ -76,10 +75,20 @@ def __get_slashes__(chess_board):
   length_of_chess_board = len(chess_board)
   slash_chess_board = []
   for slash_number in range(length_of_chess_board):
-    slash_chess_board.append(__get_slash_coordinate_arr__(chess_board, slash_number))
+    slash_chess_board.append(__get_left_slash_coordinate_arr__(chess_board, slash_number))
   return slash_chess_board
 
 
 def __check_win_left_slash__(chess_board):
   return __check_win_lying_flat__(__get_slashes__(chess_board))
+
+def __get_right_slash_arr__(chess_board, slash_num):
+  length_of_chess_board = len(chess_board)
+  slash_line = []
+  if slash_num <= length_of_chess_board - 1:
+    for i in range(slash_num + 1):
+      slash_line.append(chess_board[i][i + length_of_chess_board - 1 - slash_num])
+  elif slash_num > length_of_chess_board:
+    for i 
+
 
