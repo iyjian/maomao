@@ -1,11 +1,14 @@
-import numpy
-
 BLACK_WIN = 1
 WHITE_WIN = 2
 NOBODY_WIN = 0
 BLACK_CHESS = 1
 WHITE_CHESS = 2
 NOTHING = 0
+LEFT_SLASH_WIN = 4
+RIGHT_SLASH_WIN = 3
+LYING_FLAT_WIN = 2
+VERTICALLY_WIN = 1
+IN_NO_WAY = 0
 
 
 def __check_win_line__(line):
@@ -108,10 +111,20 @@ def __get_right_slashes__(chess_board):
 def __check_win_right_slash__(chess_board):
   return __check_win_lying_flat__(__get_right_slashes__(chess_board))
 
+
+
 def check_win(chess_board):
-  __check_win_lying_flat__(chess_board)
-  __check_win_vertically__(chess_board)
-  __check_win_left_slash__(chess_board)
-  __check_win_right_slash__(chess_board)
+  # __check_win_lying_flat__(chess_board)
+  # __check_win_vertically__(chess_board)
+  # __check_win_left_slash__(chess_board)
+  # __check_win_right_slash__(chess_board)
+  lying_flat = [__check_win_lying_flat__(chess_board), LYING_FLAT_WIN]
+  vertically = [__check_win_vertically__(chess_board), VERTICALLY_WIN]
+  left_slash = [__check_win_left_slash__(chess_board), LEFT_SLASH_WIN]
+  right_slash = [__check_win_right_slash__(chess_board), RIGHT_SLASH_WIN]
+  for i in [lying_flat, vertically, left_slash, right_slash]:
+    if i[0] != NOBODY_WIN:
+      return i
+  return[NOBODY_WIN, IN_NO_WAY]
 
 
