@@ -1,16 +1,24 @@
-<input type="input" id="myinput"/>
-
-<button id="mybutton">click me</button>
+<html>
+    <head>
+        <title>
+            if
+        </title>
+    </head>
+    <body>
+        <input type="input" id="myinput"/>
+        <button id="mybutton">click me</button>
+    </body>
+</html>
 
 <script>
+    const password = 123456
 
     document.querySelector('#mybutton').addEventListener('click', function () {
       let inputValue = document.querySelector('#myinput').value
-      if (inputValue == 'maomao') {
-          alert('your input is maomao')
+      if (inputValue == password) {
+          alert('your password is right')
       } else {
-          alert('your input is not maomao')
+          alert('your password is not right')
       }
     })
-
 </script>

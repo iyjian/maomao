@@ -1,0 +1,130 @@
+<html>
+    <head>
+        <title>jumping guy</title>
+    </head>
+    <body>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </body>
+</html>
+
+<script>
+canvas = document.getElementById('canvas')
+ctx = canvas.getContext('2d')
+
+
+
+strokeGuy1 = (x, y) => {
+    ctx.lineWidth = 5
+    // head
+    ctx.beginPath();
+    ctx.arc(x, y, 30, 0, 2 * Math.PI)
+    ctx.stroke()
+    // body
+    ctx.beginPath();
+    ctx.moveTo(x, y + 30);
+    ctx.lineTo(x, y + 70);
+    ctx.stroke();
+    
+    // left arm
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x - 40, y + 30);
+    ctx.stroke();
+   
+    // right arm
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x + 40, y + 30);
+    ctx.stroke();
+  
+    // down body
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x, y + 110);
+    ctx.stroke();
+    
+    // left leg
+    ctx.beginPath();
+    ctx.moveTo(x,  y + 110);
+    ctx.lineTo(x - 40, y + 150);
+    ctx.stroke();
+    
+    // right leg
+    ctx.beginPath();
+    ctx.moveTo(x, y + 110);
+    ctx.lineTo(x + 40, y + 150);
+    ctx.stroke();
+
+}
+
+// method routine function
+strokeGuy2 = (x, y) => {
+    //  x = 100
+    //  y = 100
+
+    // 头
+    ctx.beginPath();
+    ctx.arc(x, y, 30, 0, 2 * Math.PI)
+    ctx.stroke()
+    // 身体
+    ctx.beginPath();
+    ctx.moveTo(x, y + 30);
+    ctx.lineTo(x, y + 70);
+    ctx.stroke();
+    
+    // left arm
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x - 40, y + 110);
+    ctx.stroke();
+   
+    // right arm
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x + 40, y + 110);
+    ctx.stroke();
+  
+    // 下身
+    ctx.beginPath();
+    ctx.moveTo(x, y + 70);
+    ctx.lineTo(x, y + 110);
+    ctx.stroke();
+    
+    // left leg
+    ctx.beginPath();
+    ctx.moveTo(x,  y + 110);
+    ctx.lineTo(x - 15 , y + 170);
+    ctx.stroke();
+    // right leg
+    ctx.beginPath();
+    ctx.moveTo(x, y + 110);
+    ctx.lineTo(x + 15, y + 170);
+    ctx.stroke();
+   
+}
+
+
+
+strokeGuy = (x, y, type) => {
+    if (type == 1) {
+        strokeGuy1(x, y)
+    } else if (type == 0) {
+        strokeGuy2(x, y)
+    } else {
+        // do nothing
+    }
+}
+
+
+let i = 1
+
+setInterval(() => {
+    ctx.clearRect(0, 0, 1000, 1000)
+    strokeGuy(100, 100, i % 2)
+    i += 1
+}, 500)
+
+</script>
+
+
+
