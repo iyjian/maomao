@@ -15,19 +15,6 @@ unsigned long long factorial(unsigned int n){
     return result;
 }
 
-bool checkPrimeNumber(unsigned int num) {
-    if (num == 1) {
-        return false;
-    }
-    for (int maybe_factor = 2; maybe_factor <= std::ceil(num / 2.0); maybe_factor ++) {
-        if (num % maybe_factor == 0) {
-            return false; 
-        }
-    }
-    return true;
-}
-
-
 bool isPrime (int num){
     for (int i = 2; i <= sqrt(num); i ++){
         if (num % i == 0){
@@ -37,11 +24,8 @@ bool isPrime (int num){
     return true;
 }
 
-unsigned int random_number(int min, int max){
+unsigned int randint(int min, int max){
     srand(time(NULL));
     return rand() % (max - min + 1) + min;
 }
 
-int main(){
-    std::cout << checkPrimeNumber(7) << std::endl;
-}

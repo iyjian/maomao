@@ -1,45 +1,55 @@
+
 <html>
   <head>
-    <title>chess</title>
+    <title>五子棋游戏</title>
   </head>
   <body>
     <canvas id="canvas" width="950" height="950"></canvas>
   </body>
 </html>
 
+
 <script>
   canvas = document.getElementById('canvas')
   ctx = canvas.getContext('2d')
 
   const chessBoardBorder = 7
-  const margin = 0
+  const margin = 10
   const pedding = 15
-  const actualBoardwidth = 795
+  let actualBoardwidth = 795
   const lines = 15
+
+  const lineInterval = Math.floor(actualBoardwidth / (lines - 1))
+  actualBoardwidth = lineInterval * (lines - 1)
   const boardWidth = actualBoardwidth + 2 * pedding
-  const lineInterval = (boardWidth -  2 * pedding) / lines
   const chessR = lineInterval / 2 - 5
   const allspaces = pedding + margin
+  const middlePoint = (lines - 1) / 2
+
   const changeXY = function (x, y) {
-    let remainX = x % lineInterval
-    let remainY = y % lineInterval
-    let x = Math.floor(x / )
+    const remainX = (x - allspaces) % lineInterval
+    const remainY = (y - allspaces) % lineInterval
+    let realRemainX = 0
+    let realRemainY = 0
     if (remainX <= lineInterval / 100 * 40){
-      remainX = 0
+      realRemainX = 0
     }
     else if(remainX >= lineInterval / 100 * 60){
-      remainX = 1
+      realRemainX = 1
     }
     if (remainY <= lineInterval / 100 * 40){
-      remainY = 0
+      realRemainY = 0
     }
     else if (remainY >= lineInterval / 100 * 60){
-      remainY = 1
+      realRemainY = 1
     }
     else () => {
       return 0
     }
-    
+    // all up code is to decide which point should be chose to add a chess
+    const lineX = ((x - allspaces - remainX) / lineInterval + realRemainX) * lineInterval + allspaces
+    const lineY = ((y - allspaces - remainY) / lineInterval + realRemainY) * lineInterval + allspaces
+    return (lineX * 10000 + lineY)
   }
 
   const drawLine = (startX, startY, length, direction)=> {
@@ -51,6 +61,7 @@
     ctx.lineTo(endX, endY);
     ctx.stroke();
   }
+
   const drawBackground = function () {
     ctx.beginPath();
     ctx.fillStyle = "#E2BC22"
@@ -58,12 +69,16 @@
     ctx.beginPath()
     ctx.lineWidth = chessBoardBorder;
     ctx.strokeRect(allspaces, allspaces, boardWidth -  2 * pedding, boardWidth -  2 * pedding)
-    for (let currentLine = 0; currentLine <= lines; currentLine ++){
+    for (let currentLine = 0; currentLine < lines; currentLine ++){
       let lineInformation = allspaces + currentLine * lineInterval
       ctx.lineWidth = 1
       drawLine(lineInformation, allspaces, actualBoardwidth, Math.PI / 2)
       drawLine(allspaces, lineInformation, actualBoardwidth, 0)
     }
+    ctx.beginPath()
+    ctx.fillStyle = "black"
+    ctx.arc(allspaces + middlePoint * lineInterval, allspaces + middlePoint * lineInterval, 3, 0, 2 * Math.PI)
+    ctx.fill()
 
   }
 
@@ -80,11 +95,14 @@
       ctx.fill();
   }
 
+
   const f = function (event) {
       x = event.clientX - 8
       y = event.clientY - 8
       if(x <= margin + boardWidth - pedding + 15 &&
        y <= margin + boardWidth - pedding + 15 && x >= allspaces - 15 && y >= allspaces - 15){
+        x = Math.floor(changeXY(x, y) / 10000)
+        y = changeXY(x, y) - 10000 * x
         drawChess(x, y, player)
         player = (player + 1) % 2
       }
