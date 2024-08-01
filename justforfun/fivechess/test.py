@@ -12,3 +12,9 @@ chess_board = [
 
 assert fivechesslib.check_win(chess_board) == [WHITE_WIN, RIGHT_SLASH_WIN]
 print('pass!')
+
+
+
+
+
+

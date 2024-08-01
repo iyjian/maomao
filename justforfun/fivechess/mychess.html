@@ -26,29 +26,18 @@
   const allspaces = pedding + margin
   const middlePoint = (lines - 1) / 2
 
-  const changeXY = function (x, y) {
+  const setRemain = (remain, interval) => {
+    return remain <= interval / 100 * 30 ? 0 : (remain >= interval / 100 * 70 ? 1 : 0);
+  };
+
+  const correctClickCoordinateError = function (x, y) {
     const remainX = (x - allspaces) % lineInterval
     const remainY = (y - allspaces) % lineInterval
-    let realRemainX = 0
-    let realRemainY = 0
-    if (remainX <= lineInterval / 100 * 40){
-      realRemainX = 0
-    }
-    else if(remainX >= lineInterval / 100 * 60){
-      realRemainX = 1
-    }
-    if (remainY <= lineInterval / 100 * 40){
-      realRemainY = 0
-    }
-    else if (remainY >= lineInterval / 100 * 60){
-      realRemainY = 1
-    }
-    else () => {
-      return 0
-    }
-    // all up code is to decide which point should be chose to add a chess
-    const lineX = ((x - allspaces - remainX) / lineInterval + realRemainX) * lineInterval + allspaces
-    const lineY = ((y - allspaces - remainY) / lineInterval + realRemainY) * lineInterval + allspaces
+    const realRemainX = setRemain(remainX, lineInterval);
+    const realRemainY = setRemain(remainY, lineInterval);
+
+    const lineX = x - remainX + realRemainX * lineInterval
+    const lineY = y - remainY + realRemainY * lineInterval
     return (lineX * 10000 + lineY)
   }
 
@@ -77,7 +66,8 @@
     }
     ctx.beginPath()
     ctx.fillStyle = "black"
-    ctx.arc(allspaces + middlePoint * lineInterval, allspaces + middlePoint * lineInterval, 3, 0, 2 * Math.PI)
+    let o = allspaces + middlePoint * lineInterval
+    ctx.arc(o, o, 3, 0, 2 * Math.PI)
     ctx.fill()
 
   }
@@ -101,8 +91,8 @@
       y = event.clientY - 8
       if(x <= margin + boardWidth - pedding + 15 &&
        y <= margin + boardWidth - pedding + 15 && x >= allspaces - 15 && y >= allspaces - 15){
-        x = Math.floor(changeXY(x, y) / 10000)
-        y = changeXY(x, y) - 10000 * x
+        x = Math.floor(correctClickCoordinateError(x, y) / 10000)
+        y = correctClickCoordinateError(x, y) - 10000 * x
         drawChess(x, y, player)
         player = (player + 1) % 2
       }
