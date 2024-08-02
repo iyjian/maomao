@@ -8,8 +8,8 @@
   </body>
 </html>
 
-
 <script>
+
   canvas = document.getElementById('canvas')
   ctx = canvas.getContext('2d')
 
@@ -26,9 +26,8 @@
   const allspaces = pedding + margin
   const middlePoint = (lines - 1) / 2
 
-  const setRemain = (remain, interval) => {
-    return remain <= interval / 100 * 30 ? 0 : (remain >= interval / 100 * 70 ? 1 : 0);
-  };
+  let chesses = {}
+
 
   const correctClickCoordinateError = function (x, y) {
     const remainX = (x - allspaces) % lineInterval
@@ -40,7 +39,6 @@
     const lineY = y - remainY + realRemainY * lineInterval
     return (lineX * 10000 + lineY)
   }
-
   const drawLine = (startX, startY, length, direction)=> {
     // direction must be related to PI
     endY = startY + Math.sin(direction) * length;
@@ -50,7 +48,6 @@
     ctx.lineTo(endX, endY);
     ctx.stroke();
   }
-
   const drawBackground = function () {
     ctx.beginPath();
     ctx.fillStyle = "#E2BC22"
@@ -72,8 +69,29 @@
 
   }
 
+</script>
+
+
+<script>
+
+ 
+
   drawBackground()
 
+
+
+  const markAsHaveAChess = (x, y) => {
+    chesses[`${x}-${y}`] = 0
+    console.log(chesses)
+  }
+
+  const isThereAChess = (x, y) => {
+    return `${x}-${y}` in chesses
+  }
+
+  const setRemain = (remain, interval) => {
+    return remain <= interval / 100 * 30 ? 0 : (remain >= interval / 100 * 70 ? 1 : 0);
+  };
 
 
   let player = 0
@@ -87,17 +105,19 @@
 
 
   const f = function (event) {
-      x = event.clientX - 8
-      y = event.clientY - 8
-      if(x <= margin + boardWidth - pedding + 15 &&
-       y <= margin + boardWidth - pedding + 15 && x >= allspaces - 15 && y >= allspaces - 15){
-        x = Math.floor(correctClickCoordinateError(x, y) / 10000)
-        y = correctClickCoordinateError(x, y) - 10000 * x
-        drawChess(x, y, player)
-        player = (player + 1) % 2
-      }
-
-
+    x = event.clientX - 8
+    y = event.clientY - 8
+    x = Math.floor(correctClickCoordinateError(x, y) / 10000)
+    y = correctClickCoordinateError(x, y) - 10000 * x
+    if(x <= margin + boardWidth - pedding + 15 &&
+    y <= margin + boardWidth - pedding + 15 &&
+    x >= allspaces - 15 && y >= allspaces - 15&&
+    isThereAChess(x, y) == false
+    ){
+      drawChess(x, y, player)
+      player = (player + 1) % 2
+      markAsHaveAChess(x, y)
+    }
   }
 
   canvas.addEventListener('click', f)
