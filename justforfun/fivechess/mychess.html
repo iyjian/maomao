@@ -3,8 +3,8 @@
   <head>
     <title>五子棋游戏</title>
   </head>
-  <body>
-    <canvas id="canvas" width="950" height="950"></canvas>
+  <body style="background: content-box radial-gradient(crimson, skyblue); ">
+    <canvas id="canvas" width="950" height="950" ></canvas>
   </body>
 </html>
 
@@ -28,6 +28,19 @@
 
   let chesses = {}
 
+  const markAsHaveAChess = (x, y) => {
+    chesses[`${x}-${y}`] = 0
+    console.log(chesses)
+  }
+
+  const isThereAChess = (x, y) => {
+    return `${x}-${y}` in chesses
+  }
+
+  const setRemain = (remain, interval) => {
+    return remain <= interval / 100 * 30 ? 0 : (remain >= interval / 100 * 70 ? 1 : 0);
+  };
+
 
   const correctClickCoordinateError = function (x, y) {
     const remainX = (x - allspaces) % lineInterval
@@ -39,6 +52,8 @@
     const lineY = y - remainY + realRemainY * lineInterval
     return (lineX * 10000 + lineY)
   }
+
+
   const drawLine = (startX, startY, length, direction)=> {
     // direction must be related to PI
     endY = startY + Math.sin(direction) * length;
@@ -80,18 +95,7 @@
 
 
 
-  const markAsHaveAChess = (x, y) => {
-    chesses[`${x}-${y}`] = 0
-    console.log(chesses)
-  }
 
-  const isThereAChess = (x, y) => {
-    return `${x}-${y}` in chesses
-  }
-
-  const setRemain = (remain, interval) => {
-    return remain <= interval / 100 * 30 ? 0 : (remain >= interval / 100 * 70 ? 1 : 0);
-  };
 
 
   let player = 0
