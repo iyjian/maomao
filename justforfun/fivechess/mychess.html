@@ -3,8 +3,8 @@
   <head>
     <title>五子棋游戏</title>
   </head>
-  <body style="background: content-box radial-gradient(crimson, skyblue); ">
-    <canvas id="canvas" width="950" height="950" ></canvas>
+  <body style="background: content-box radial-gradient(rgb(144, 225, 144), skyblue); ">
+    <canvas id="canvas" width="950" height="950"></canvas>
   </body>
 </html>
 
@@ -19,6 +19,7 @@
   let actualBoardwidth = 795
   const lines = 15
 
+  let player = 0
   const lineInterval = Math.floor(actualBoardwidth / (lines - 1))
   actualBoardwidth = lineInterval * (lines - 1)
   const boardWidth = actualBoardwidth + 2 * pedding
@@ -37,20 +38,25 @@
     return `${x}-${y}` in chesses
   }
 
-  const setRemain = (remain, interval) => {
-    return remain <= interval / 100 * 30 ? 0 : (remain >= interval / 100 * 70 ? 1 : 0);
+  const setRemain = (remain) => {
+    return remain <= lineInterval * 0.3 ? 0 : (remain >= lineInterval * 0.7 ? 1 : 2);
   };
 
 
   const correctClickCoordinateError = function (x, y) {
     const remainX = (x - allspaces) % lineInterval
     const remainY = (y - allspaces) % lineInterval
-    const realRemainX = setRemain(remainX, lineInterval);
-    const realRemainY = setRemain(remainY, lineInterval);
+    if (setRemain(remainX) != 2 && setRemain(remainY) != 2){
+      const settedRemainX = setRemain(remainX);
+      const settedRemainY = setRemain(remainY);
+      const lineX = x - remainX + settedRemainX * lineInterval
+      const lineY = y - remainY + settedRemainY * lineInterval
+      return (lineX * 10000 + lineY)
+    }else{
+      return (-1)
+    }
 
-    const lineX = x - remainX + realRemainX * lineInterval
-    const lineY = y - remainY + realRemainY * lineInterval
-    return (lineX * 10000 + lineY)
+
   }
 
 
@@ -81,42 +87,28 @@
     let o = allspaces + middlePoint * lineInterval
     ctx.arc(o, o, 3, 0, 2 * Math.PI)
     ctx.fill()
-
-  }
-
-</script>
-
-
-<script>
-
- 
-
-  drawBackground()
-
-
-
-
-
-
-  let player = 0
-
-  const drawChess = function (x, y, player) {
-      ctx.beginPath();
-      ctx.arc(x, y, chessR, 0, 2 * Math.PI)
-      ctx.fillStyle = player == 0 ? 'black' : '#ECF0F1'
-      ctx.fill();
   }
 
 
-  const f = function (event) {
+  const drawChess = function (x, y, player) {  
+    ctx.beginPath();
+    ctx.arc(x, y, chessR, 0, 2 * Math.PI)
+    ctx.fillStyle = player == 0 ? 'black' : '#ECF0F1'
+    ctx.fill();
+  }
+
+  const addChess = function (event) {
     x = event.clientX - 8
     y = event.clientY - 8
-    x = Math.floor(correctClickCoordinateError(x, y) / 10000)
-    y = correctClickCoordinateError(x, y) - 10000 * x
+    const a = correctClickCoordinateError(x, y)
+    x = Math.floor(a / 10000)
+    y = a - 10000 * x
     if(x <= margin + boardWidth - pedding + 15 &&
     y <= margin + boardWidth - pedding + 15 &&
     x >= allspaces - 15 && y >= allspaces - 15&&
-    isThereAChess(x, y) == false
+    isThereAChess(x, y) == false&&
+    x != 0 && y != 0 &&
+    a != -1 
     ){
       drawChess(x, y, player)
       player = (player + 1) % 2
@@ -124,9 +116,19 @@
     }
   }
 
-  canvas.addEventListener('click', f)
-  
+
+
+
 
 </script>
+
+
+<script>
+  drawBackground()
+  canvas.addEventListener('click', addChess)
+</script>
+
+
+
 
 
