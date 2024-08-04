@@ -35,7 +35,6 @@
 
   const markAsHaveAChess = (x, y) => {
     chesses[`${x}-${y}`] = 0
-    // console.log(chesses)
   }
 
   const isThereAChess = (x, y) => {
@@ -47,8 +46,7 @@
   };
 
 
-  // getActualCoordinate
-  const correctClickCoordinateError = function (x, y) {
+  const getActualCoordinate = function (x, y) {
     const remainX = (x - allspaces) % lineInterval
     const remainY = (y - allspaces) % lineInterval
     if (setRemain(remainX) != 2 && setRemain(remainY) != 2){
@@ -56,9 +54,9 @@
       const settedRemainY = setRemain(remainY);
       const lineX = x - remainX + settedRemainX * lineInterval
       const lineY = y - remainY + settedRemainY * lineInterval
-      return (lineX * 10000 + lineY)
+      return [lineX, lineY]
     }else{
-      return (-1)
+      return [-1, -1]
     }
   }
 
@@ -102,24 +100,18 @@
   }
 
   const addChess = function (event) {
-    console.log(event.clientX, event.pageX, event.offsetX)
-    console.log(event.clientY, event.pageY, event.offsetY)
-    // x = event.clientX - 8
-    // y = event.clientY - 8
     x = event.offsetX
     y = event.offsetY
-    const a = correctClickCoordinateError(x, y)
-    x = Math.floor(a / 10000)
-    y = a - 10000 * x
-    console.log(`actual x: ${x} actual y: ${y}`)
+    const actualCoordinate = getActualCoordinate(x, y)
+    x = getActualCoordinate(x, y)[0]
+    y = getActualCoordinate(x, y)[1]
     if(x <= margin + boardWidth - pedding + 15 &&
     y <= margin + boardWidth - pedding + 15 &&
     x >= allspaces - 15 && y >= allspaces - 15&&
     isThereAChess(x, y) == false&&
-    x != 0 && y != 0 &&
-    a != -1 
+    x != -1 && y != -1 &&
+    actualCoordinate != -1 
     ){
-      console.log(`drawChess at: ${x}, ${y}`)
       drawChess(x, y, player)
       player = (player + 1) % 2
       markAsHaveAChess(x, y)
