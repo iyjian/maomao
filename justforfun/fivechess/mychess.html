@@ -4,14 +4,18 @@
     <title>五子棋游戏</title>
   </head>
   <body style="background: content-box radial-gradient(rgb(144, 225, 144), skyblue); ">
-    <canvas id="canvas" width="950" height="950"></canvas>
+    <canvas id="canvas" width="850" height="850"></canvas>
+    <link rel="stylesheet" href="style.css">
+    <input id="reset" class="styled" type="button" value="reset" />
   </body>
 </html>
 
 <script>
 
-  canvas = document.getElementById('canvas')
+  canvas = document.querySelector('#canvas')
   ctx = canvas.getContext('2d')
+  resetButton = document.querySelector('#reset');
+
 
   const chessBoardBorder = 7
   const margin = 10
@@ -55,8 +59,6 @@
     }else{
       return (-1)
     }
-
-
   }
 
 
@@ -71,6 +73,7 @@
   }
   const drawBackground = function () {
     ctx.beginPath();
+    ctx.clearRect(margin, margin, actualBoardwidth, actualBoardwidth)
     ctx.fillStyle = "#E2BC22"
     ctx.fillRect(margin, margin, boardWidth, boardWidth);
     ctx.beginPath()
@@ -124,8 +127,11 @@
 
 
 <script>
+  
   drawBackground()
+  resetButton.addEventListener('click', drawBackground)
   canvas.addEventListener('click', addChess)
+
 </script>
 
 
