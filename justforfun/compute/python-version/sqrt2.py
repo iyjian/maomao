@@ -7,7 +7,7 @@ def isInLine(x1):
 
         
 
-def sqrt2_computing_stable_version(Precision : int):
+def sqrt2_computing(Precision : int):
     counter = 0
     totalRolls = 0
     inLineTimes = 0
@@ -19,5 +19,3 @@ def sqrt2_computing_stable_version(Precision : int):
         totalRolls += 1
         counter += 1
     return totalRolls / inLineTimes
-
-print(sqrt2_computing_stable_version(1000))

@@ -42,7 +42,7 @@
   }
 
   const setRemain = (remain) => {
-    return remain <= lineInterval * 0.3 ? 0 : (remain >= lineInterval * 0.7 ? 1 : 2);
+    return remain <= lineInterval * 0.4 ? 0 : (remain >= lineInterval * 0.6 ? 1 : 2);
   };
 
 
@@ -72,7 +72,7 @@
   }
   const drawBackground = function () {
     ctx.beginPath();
-    ctx.clearRect(margin, margin, actualBoardwidth, actualBoardwidth)
+    ctx.clearRect(margin, margin, 850, 850)
     ctx.fillStyle = "#E2BC22"
     ctx.fillRect(margin, margin, boardWidth, boardWidth);
     ctx.beginPath()
@@ -131,6 +131,151 @@
   resetButton.addEventListener('click', drawBackground)
   canvas.addEventListener('click', addChess)
 
+</script>
+
+<script>
+  const BLACK_WIN = 1;
+  const WHITE_WIN = 2;
+  const NOBODY_WIN = 0;
+  const BLACK_CHESS = 1;
+  const WHITE_CHESS = 2;
+  const NOTHING = 0;
+  const LEFT_SLASH_WIN = 4;
+  const RIGHT_SLASH_WIN = 3;
+  const LYING_FLAT_WIN = 2;
+  const VERTICALLY_WIN = 1;
+  const IN_NO_WAY = 0;
+
+  function checkWinLine(line) {
+    let blackChessContinueNum = 0;
+    let whiteChessContinueNum = 0;
+
+    for (let l of line) {
+      if (l === BLACK_CHESS) {
+        blackChessContinueNum++;
+        whiteChessContinueNum = 0;
+      } else if (l === WHITE_CHESS) {
+        whiteChessContinueNum++;
+        blackChessContinueNum = 0;
+      } else if (l === NOTHING) {
+        blackChessContinueNum = 0;
+        whiteChessContinueNum = 0;
+      } else {
+        console.error('error: chess board is faulty');
+        throw new Error('Chess board is faulty');
+      }
+
+      if (blackChessContinueNum < 5 && whiteChessContinueNum < 5) {
+        continue;
+      } else if (blackChessContinueNum === 5) {
+        return BLACK_WIN;
+      } else if (whiteChessContinueNum === 5) {
+        return WHITE_WIN;
+      } else {
+        throw new Error('Invalid chess line');
+      }
+    }
+    return NOBODY_WIN;
+  }
+
+  function checkWinLyingFlat(chessBoard) {
+    for (let i of chessBoard) {
+      const result = checkWinLine(i);
+      if (result === NOBODY_WIN) {
+        continue;
+      } else if (result === BLACK_WIN) {
+        return BLACK_WIN;
+      } else {
+        return WHITE_WIN;
+      }
+    }
+    return NOBODY_WIN;
+  }
+
+  function checkWinVertically(chessBoard) {
+    const chessBoardLength = chessBoard.length;
+    const verticalChessBoard = [];
+    for (let i = 0; i < chessBoardLength; i++) {
+      verticalChessBoard.push([]);
+    }
+    for (let k = 0; k < chessBoardLength; k++) {
+      for (let j of chessBoard) {
+        verticalChessBoard[k].push(j[k]);
+      }
+    }
+    return checkWinLyingFlat(verticalChessBoard);
+  }
+
+  function getLeftSlashCoordinateArr(chessBoard, slashNumber) {
+    const lengthOfChessBoard = chessBoard.length;
+    const slashArray = [];
+    if (slashNumber <= lengthOfChessBoard - 1) {
+      for (let i = 0; i <= slashNumber; i++) {
+        slashArray.push(chessBoard[i][slashNumber - i]);
+      }
+    } else {
+      for (let i = slashNumber - lengthOfChessBoard + 1; i < 2 * lengthOfChessBoard + 1 - slashNumber; i++) {
+        slashArray.push(chessBoard[i][slashNumber - i]);
+      }
+    }
+    return slashArray;
+  }
+
+  function getLeftSlashes(chessBoard) {
+    const lengthOfChessBoard = chessBoard.length;
+    const slashChessBoard = [];
+    for (let slashNumber = 0; slashNumber < lengthOfChessBoard; slashNumber++) {
+      slashChessBoard.push(getLeftSlashCoordinateArr(chessBoard, slashNumber));
+    }
+    return slashChessBoard;
+  }
+
+  function checkWinLeftSlash(chessBoard) {
+    return checkWinLyingFlat(getLeftSlashes(chessBoard));
+  }
+
+  function getRightSlashArr(chessBoard, slashNum) {
+    const lengthOfChessBoard = chessBoard.length;
+    const slashLine = [];
+    if (slashNum <= lengthOfChessBoard - 1) {
+      for (let i = 0; i <= slashNum; i++) {
+        slashLine.push(chessBoard[i][lengthOfChessBoard - 1 - slashNum + i]);
+      }
+      return slashLine;
+    } else {
+      let gap = slashNum - lengthOfChessBoard + 1;
+      for (let i = gap; i < lengthOfChessBoard; i++) {
+        slashLine.push(chessBoard[i][lengthOfChessBoard - 1 - slashNum + i]);
+      }
+      return slashLine;
+    }
+  }
+
+  function getRightSlashes(chessBoard) {
+    const lengthOfChessBoard = chessBoard.length;
+    const slashChessBoard = [];
+    for (let slashNumber = 0; slashNumber < lengthOfChessBoard; slashNumber++) {
+      slashChessBoard.push(getRightSlashArr(chessBoard, slashNumber));
+    }
+    return slashChessBoard;
+  }
+
+  function checkWinRightSlash(chessBoard) {
+    return checkWinLyingFlat(getRightSlashes(chessBoard));
+  }
+
+  function checkWin(chessBoard) {
+    const lyingFlat = [checkWinLyingFlat(chessBoard), LYING_FLAT_WIN];
+    const vertically = [checkWinVertically(chessBoard), VERTICALLY_WIN];
+    const leftSlash = [checkWinLeftSlash(chessBoard), LEFT_SLASH_WIN];
+    const rightSlash = [checkWinRightSlash(chessBoard), RIGHT_SLASH_WIN];
+    for (let i of [lyingFlat, vertically, leftSlash, rightSlash]) {
+      if (i[0] !== NOBODY_WIN) {
+        return [i[0], i[1]];
+      }
+    }
+    return [NOBODY_WIN, IN_NO_WAY];
+  }
 </script>
 
 
