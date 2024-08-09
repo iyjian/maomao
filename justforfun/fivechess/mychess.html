@@ -7,6 +7,8 @@
     text-align: center;
     color: #fff;
     text-shadow: 1px 1px 1px #000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3),
+    5px 5px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     background-color: rgb(220 0 0 / 100%);
     background-image: linear-gradient(
@@ -43,6 +45,8 @@
     text-shadow: 1px 1px 1px #000;
     border-radius: 10px;
     background-color: rgb(220 120 0 / 100%);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3),
+    5px 5px 10px rgba(0, 0, 0, 0.2);
     background-image: linear-gradient(
       to top left,
       rgb(0 0 0 / 20%),
@@ -240,6 +244,21 @@
   const middlePoint = (lines - 1) / 2
 
   let chesses = {}
+  let chessBoard = Array(chessBoardLength).fill().map(() => [])
+  let size = 15; 
+  let matrix = new Array(size);
+
+  for (let i = 0; i < size; i++) {
+    matrix[i] = new Array(size);
+    for (let j = 0; j < size; j++) {
+      matrix[i][j] = 0;
+    }
+  }
+
+
+  const chessBoardRefresh = (current, what_player) => {
+    chessBoard
+  }
 
   const markAsHaveAChess = (x, y) => {
     chesses[`${x}-${y}`] = 0
