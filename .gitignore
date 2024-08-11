@@ -1,3 +1,5 @@
 a.out
 __pycache__
 *.jpg
+*.exe
+*.log
