@@ -1,10 +1,11 @@
 #include <functional>
 #include <iostream>
+#include <cmath>
 
 const double EPSILON = 1e-4;
 
 double f(double x){
-    return (2 * x * x + 3 * x + -1);
+    return std::abs(x + 1) + std::abs(x - 6) + 2 * std::abs(x + 1.5);
 }
 
 double derivative(std::function<double(double)> f, double x, double delta = 1e-4){
@@ -14,13 +15,11 @@ double derivative(std::function<double(double)> f, double x, double delta = 1e-4
 double findMinimumOfFunction(std::function<double(double)> f, double learningRate = 1e-5){
     double x0 = 2;
 
-    while(abs(derivative(f, x0)) > EPSILON){
+    while(std::abs(derivative(f, x0)) > EPSILON){
         x0 -= learningRate * derivative(f, x0);
-        // std::cout << x0 << std::endl;
-        printf("%.2f, %.2f, %f, %d\n", x0, abs(derivative(f, x0)), EPSILON, abs(derivative(f, x0)) > EPSILON);
     }
 
-    return x0;
+    return f(x0);
 }
 
 int main(){
