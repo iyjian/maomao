@@ -24,18 +24,19 @@ int gcd(int a, int b) {
     return a;
 }
 
-cpp_int rand_very_big_odd_num(int bit) {
+vector<bool> rand_very_big_odd_num(int bit) {
     std::mt19937 mt(std::random_device{}());
     std::uniform_int_distribution<> distr(0, 1);
 
-    cpp_int random_result = 1;
+    vector<bool> random_result = {1};
     for (int i = 1; i < bit - 1; i++) {
-      cpp_int bit_value = distr(mt);
-      random_result += bit_value << i;
+        random_result.push_back(distr(mt));
     }
 
-    return random_result += (1 << bit);
+    random_result.push_back(1);
+    return random_result;
 }
+
 
 
 cpp_int rand_prime(int bit){
