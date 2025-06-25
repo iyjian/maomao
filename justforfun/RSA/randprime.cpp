@@ -1,70 +1,71 @@
-#include <random>
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <cmath>
+#include <boost/random.hpp>
+#include <boost/multiprecision/number.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
-using std::vector;
-using boost::multiprecision::cpp_int;
+#include <vector>
+#include <iostream>
+using int_2048 = boost::multiprecision::number<boost::multiprecision::cpp_int_backend<2048, 2048, boost::multiprecision::unsigned_magnitude, boost::multiprecision::checked, void>>;
 
-bool isPrime(cpp_int num){
-    if(num == 1) return false;
-    for (int i = 2; i <= boost::multiprecision::sqrt(num); i++){
-        if (num % i == 0) return false;
-    }
-    return true;
+int_2048 rand_num(int bits) {
+    boost::random::mt19937 rng(static_cast<unsigned int>(std::time(0)));
+    boost::random::uniform_int_distribution<int_2048> dist(1, int_2048(1) << (bits - 1));
+    return dist(rng) | 1;
 }
 
-int gcd(int a, int b) {
-    while (b != 0) {
-        int temp = b;
-        b = a % b;
-        a = temp;
+int find_factor_of_2(int_2048 n){
+    int result;
+    int_2048 n1 = n;
+    whlie((n1 % 2) == 0){
+        n1 /= 2;
+        result ++;
     }
-    return a;
-}
-
-vector<bool> rand_very_big_odd_num(int bit) {
-    std::mt19937 mt(std::random_device{}());
-    std::uniform_int_distribution<> distr(0, 1);
-
-    vector<bool> random_result = {1};
-    for (int i = 1; i < bit - 1; i++) {
-        random_result.push_back(distr(mt));
-    }
-
-    random_result.push_back(1);
-    return random_result;
+    return result;
 }
 
 
+bool is_prime(int_2048 p){
 
-cpp_int rand_prime(int bit){
-    std::random_device random;
-    std::mt19937 mt(random());
-    std::uniform_int_distribution<> distribution_for_first_number(2 ^ 9, 2 ^ 10);
-    int m = distribution_for_first_number(mt);
-    int n = m + 1;
-
-    std::uniform_int_distribution<> distr_for_bits(0, 1);
-    cpp_int prime_maybe;
-    vector<cpp_int> not_prime_list;
-    do{
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        for(int i = 0; i < 1000; i++){
-            prime_maybe += distr_for_bits(gen) << i;
+    boost::random::mt19937 rng;
+    rng.seed(static_cast<unsigned int>(std::time(0)));
+    boost::random::uniform_int_distribution<int_2048> dist(2, p - 2);
+    int_2048 n = dist(rng);
+    
+    if(boost::multiprecision::powm(n, (p - 1), p) != 1){
+        return false;
+    }
+    
+    int s = find_factor_of_2(p - 1);
+    int_2048 k = powm(n, ((p - 1) >> s), p);
+    
+    for(int i = 0; i < s; i++){
+        if(k == (p - 1)){
+            return true;
         }
-        prime_maybe = prime_maybe * n + m;
-        if(std::find(not_prime_list.begin(), not_prime_list.end(), (prime_maybe)) != not_prime_list.end()) continue;
-        not_prime_list.push_back(prime_maybe);
+        else if(k == 1){
+            break;
+        }
+        k = boost::multiprecision::powm(k, 2, p);
     }
-    while(isPrime(prime_maybe) == false);
-    not_prime_list.clear();
-    return prime_maybe;
+    return false;
+
 }
 
+
+
+int_2048 rand_prime(int bits){
+    int_2048 n;
+    bool prime = false;
+    
+        
+    while (prime == false){
+        n = rand_num(bits);
+        prime = is_prime(n);
+    }
+
+    return n;
+}
 
 int main(){
-    // std::cout << randPrime() << std::endl;
+
+    std::cout << is_prime(32317006071311007300714876688669951960444102669715484032130345427524655138867890893197201411522913463688717960921898019494119559150490921095088152386448283120630877367300996091750197750389652106796057638384067568276792218642619756161838094338476170470581645852036305042887575891541065808607552399123930385521914333389668342420684974786564569494856176035326322058077805659331026192708460314150258592864177116725943603718461857357598351152301645904403697613233287231227125684710820209725157101726931323469678542580656697935045997268352998638215525166389647960133216351542012121464521608892876832962973571615625796648961) << std::endl;
+    return 0;
 }
