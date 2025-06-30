@@ -41,7 +41,7 @@ bool big_int<bits_of_number>::operator==(const big_int<bits_of_number> & int_1, 
         std::cerr << "Error: data limits do not match." << std::endl;
         return false;
     }
-    for(int i = 0; i < int_1.data_limit; i++){
+    for(int i = int_1.data_limit; i > 0; i++){
         if(int_1.data[i] != int_2.data[i]) return false;
     }
     return true;
@@ -56,7 +56,7 @@ bool big_int<bits_of_number>::operator<(const big_int<bits_of_number> & int_1,  
         std::cerr << "Error: data limits do not match." << std::endl;
         return false;
     }
-    for(int i = 0; i < int_1.data_limit; i++){
+    for(int i = int_1.data_limit; i > 0; i--){
         if(int_1.data[i] < int_2.data[i]) return true;
         else if(int_1.data[i] > int_2.data[i]) return false;
     }
@@ -83,7 +83,7 @@ big_int<bits_of_number> big_int<bits_of_number>::operator+(const big_int<bits_of
     big_int<int_1.bits> result;
     bool carry = 0;
     for(int i = 0; i < int_1.data_limit; i++){
-        
+
     }
 
 }
