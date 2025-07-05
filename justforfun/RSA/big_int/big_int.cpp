@@ -2,15 +2,17 @@
 #include <cstdlib>
 #include <string>
 #include <climits>
+#include <random>
+#include <bitset>
 
 template <const unsigned int bits_of_number>
 class big_int{
     private:
         
     public:
-        unsigned int data_limit = bits_of_number / (sizeof(unsigned int));
-        unsigned int* data = (unsigned int*)malloc(bits_of_number / 8);
-        void set_data(unsigned int num, unsigned int place);
+        static constexpr size_t data_limit = floor((floor(bits_of_number / 8) + 1) * 8 / sizeof(unsigned int));
+        unsigned int* data = new unsigned int[data_limit];
+        void set_data(size_t place, unsigned int num);
         bool operator==(const big_int<bits_of_number> & b);
         bool operator!=(const big_int<bits_of_number> & b);
         bool operator<(const big_int<bits_of_number> & b);
@@ -26,24 +28,19 @@ class big_int{
         // big_int<bits_of_number> operator<<(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> operator>>(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> power_mod(const big_int<bits_of_number> & base, const big_int<bits_of_number> & exponent, const big_int<bits_of_number> & modulus);
-        void __delete__(){
-            free(data);
-            data = nullptr;
-            data_limit = 0;
+
+        big_int(){
+            if(data == nullptr) throw std::runtime_error("Memory alloc failed.");
+            for(size_t i = 0; i < data_limit; i++) data[i] = 0;
         }
-        big_int(const big_int& other) : data_limit(other.data_limit) {
-            data = (unsigned int*)malloc(data_limit * sizeof(unsigned int));
-            memcpy(data, other.data, data_limit * sizeof(unsigned int));
-        }
-    
-        ~big_int() {
-            free(data);
+        ~big_int(){
+            delete(data);
             data = nullptr;
         }
 };
 
 template <const unsigned int bits_of_number>
-void big_int<bits_of_number>::set_data(unsigned int num, unsigned int place){
+void big_int<bits_of_number>::set_data(size_t place, unsigned int num){
     if(place >= data_limit){
         std::cerr << "Error: Place out of bounds." << std::endl;
         return;
@@ -99,35 +96,49 @@ bool big_int<bits_of_number>::operator>=(const big_int<bits_of_number> & b){
 template <const unsigned int bits_of_number>
 big_int<bits_of_number> big_int<bits_of_number>::operator+(const big_int<bits_of_number> & b){
     if(this->data_limit != b.data_limit){
-        std::cerr << "Error: data limits do not match." << std::endl;
-        exit(-1);
+        throw std::invalid_argument("Error: data limits do not match.");
     }
+    if(this->data == nullptr || b.data == nullptr){
+        throw std::invalid_argument("Error: data is not defined, please set data first with set_data() function.");
+    }
+    
     big_int<bits_of_number> result;
     bool carry = 0;
-    unsigned long temp;
-    for(int i = 0; i < this->data_limit; i++){
-        temp = (unsigned long)this->data[i] + (unsigned long)b.data[i] + carry;
-        if(temp > UINT_MAX){
+    unsigned int temp;
+    for(int i = (this->data_limit - 1); i >= 0; i--){
+        // std::cout << this -> data_limit << "i" << i <<std::endl;
+        temp = this->data[i] + b.data[i] + (unsigned int)(carry);
+        // std::cout << temp << "=" << this->data[i] << "+" << b.data[i] << std::endl;
+        if(temp < this->data[i]){
             carry = 1;
-            temp -= (UINT_MAX + 1);
+            temp -= UINT_MAX + 1;
         }
         else{
             carry = 0;
         }
-        result.data[i] = (unsigned int)temp;
+        result.data[i] = temp;
+
+        // std::cout << "temp: " << temp << std::endl;
     }
     return result;
 }
 
 int main(){
-    big_int<64> a;
-    big_int<64> b;
-    a.set_data(1, 0);
-    b.set_data(2, 0);
-    big_int<64> c = a + b;
-    std::cout << "Result: " << c.data[0] << std::endl; // Should print 3
-    a.__delete__();
-    b.__delete__();
-    c.__delete__();
+    big_int<32> a;
+    big_int<32> b;
+    a.set_data(a.data_limit - 1, 0b10000000000000000000000000001010);
+    std::cout << "a: " << a.data[0] << std::endl;
+    // std::cout << "a.data_limit: " << a.data_limit << std::endl;
+    b.set_data(b.data_limit - 1, 0b10000000000000000000000000000110);
+    std::cout << "b: " << b.data[0] << std::endl;
+    big_int<32> c = a + b;
+    std::cout << "result: ";
+    for(size_t i = 0; i < c.data_limit; i++){
+        std::cout << std::bitset<sizeof(unsigned int) * 8>(c.data[i]);
+    }
+    std::cout << std::endl;
+    a.~big_int();
+    b.~big_int();
+    c.~big_int();
     return 0;
 }

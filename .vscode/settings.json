@@ -65,7 +65,8 @@
         "cfenv": "cpp",
         "typeindex": "cpp",
         "variant": "cpp",
-        "any": "cpp"
+        "any": "cpp",
+        "climits": "cpp"
     },
     "python.analysis.autoImportCompletions": true,
     "C_Cpp.errorSquiggles": "disabled"
