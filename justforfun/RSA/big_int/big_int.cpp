@@ -20,6 +20,8 @@ class big_int{
         bool operator>(const big_int<bits_of_number> & b);
         bool operator>=(const big_int<bits_of_number> & b);
         big_int<bits_of_number> operator+(const big_int<bits_of_number> & b);
+        void operator+=(const big_int<bits_of_number> & b);
+        void operator++();
         // big_int<bits_of_number> operator-(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> operator*(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> operator/(const big_int<bits_of_number> & b);
@@ -106,9 +108,7 @@ big_int<bits_of_number> big_int<bits_of_number>::operator+(const big_int<bits_of
     bool carry = 0;
     unsigned int temp;
     for(int i = (this->data_limit - 1); i >= 0; i--){
-        // std::cout << this -> data_limit << "i" << i <<std::endl;
         temp = this->data[i] + b.data[i] + (unsigned int)(carry);
-        // std::cout << temp << "=" << this->data[i] << "+" << b.data[i] << std::endl;
         if(temp < this->data[i]){
             carry = 1;
             temp -= UINT_MAX + 1;
@@ -117,10 +117,18 @@ big_int<bits_of_number> big_int<bits_of_number>::operator+(const big_int<bits_of
             carry = 0;
         }
         result.data[i] = temp;
-
-        // std::cout << "temp: " << temp << std::endl;
     }
     return result;
+}
+
+template <const unsigned int bits_of_number>
+void big_int<bits_of_number>::operator+=(const big_int<bits_of_number> & b){
+    this + b;
+}
+
+template <const unsigned int bits_of_number>
+void big_int<bits_of_number>::operator++(){
+    this += 1;
 }
 
 int main(){

@@ -123,12 +123,12 @@ big_int<bits_of_number> big_int<bits_of_number>::operator+(const big_int<bits_of
 
 template <const unsigned int bits_of_number>
 void big_int<bits_of_number>::operator+=(const big_int<bits_of_number> & b){
-    this->data = this->data + b.data;
+    this + b;
 }
 
 template <const unsigned int bits_of_number>
 void big_int<bits_of_number>::operator++(){
-    this->data += 1;
+    this += 1;
 }
 
 int main(){
