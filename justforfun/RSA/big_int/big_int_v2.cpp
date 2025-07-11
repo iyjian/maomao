@@ -22,7 +22,6 @@ class big_int{
         big_int<bits_of_number> operator+(const big_int<bits_of_number> & b);
         void operator+=(const big_int<bits_of_number> & b);
         void operator++();
-        // big_int<bits_of_number> operator-(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> operator*(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> operator/(const big_int<bits_of_number> & b);
         // big_int<bits_of_number> operator%(const big_int<bits_of_number> & b);
