@@ -1,6 +1,8 @@
 #include <chrono>
+#include <iostream>
 
 int main(){
-    int a = 10;
-    delete(&a);
+    
+    std::cout << (0b10011010 & 1) << std::endl;
+    return 0;
 }
