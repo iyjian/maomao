@@ -1,8 +1,12 @@
 #include <chrono>
 #include <iostream>
+#include "big_int_v2.hpp"
 
 int main(){
+    big_int<1024> a;
+    auto start = std::chrono::high_resolution_clock::now();
     
-    std::cout << (0b10011010 & 1) << std::endl;
-    return 0;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << std::endl;
+    a.delete_big_int();
 }

@@ -33,11 +33,15 @@ class big_int{
 
         bool read(size_t place) const;
         void write(size_t place, bool value);
+        void delete_big_int(){
+            delete(number);
+        }
 
         big_int(){
             if(number == nullptr) throw std::runtime_error("Memory alloc failed.");
             for(size_t i = 0; i < limit; i++) number[i] = 0;
         }
+
 };
 
 
@@ -130,12 +134,12 @@ void big_int<bits>::operator++(){
 
 template <const unsigned int bits>
 void big_int<bits>::write(size_t place, bool value){
-    number[size_t(limit - std::floor(place / BITS_OF_UNSIGNED_INT) - 1)] += (value << int(place % BITS_OF_UNSIGNED_INT));
+    number[size_t(limit - (place - place % BITS_OF_UNSIGNED_INT) / BITS_OF_UNSIGNED_INT - 1)] += (value << int(place % BITS_OF_UNSIGNED_INT));
 }
 
 template <const unsigned int bits>
 bool big_int<bits>::read(size_t place) const {
-    size_t array_index = limit - std::floor(place / BITS_OF_UNSIGNED_INT) - 1;
+    size_t array_index = limit - (place - place % BITS_OF_UNSIGNED_INT) / BITS_OF_UNSIGNED_INT - 1;
     size_t bit_index = place % BITS_OF_UNSIGNED_INT;
     return (number[array_index] >> bit_index) & 1;
 }
@@ -159,3 +163,4 @@ big_int<bits> big_int<bits>::operator*(const big_int<bits> & b) const{
     }
     return result;
 }
+
